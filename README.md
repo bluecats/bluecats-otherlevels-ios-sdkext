@@ -5,7 +5,7 @@ This repository contains extensions which combine the functionality of the BlueC
 
 ##Required Pods
 ````
-pod 'BlueCatsSDK', :git => 'https://github.com/bluecats/bluecats-ios-sdk.git', :tag => '0.6.0.rc.5'
+pod 'BlueCatsSDK', :git => 'https://github.com/bluecats/bluecats-ios-sdk.git'
 pod 'OtherLevels', :git => 'https://github.com/bluecats/otherlevels-ios-sdk.git'
 ````
 
@@ -13,7 +13,7 @@ pod 'OtherLevels', :git => 'https://github.com/bluecats/otherlevels-ios-sdk.git'
 
 ###OLLocationEventPoster
 
-The OLLocationEventPoster relays events from the BlueCats SDK to the OtherLevels platform.  For information on setting up the BlueCats platform in coordination with this extension, please see [**this guide**](https://github.com/bluecats/bluecats-otherlevels-ios-sdkext/wiki/OLLocationEventPoster).
+The OLLocationEventPoster posts location events from the BlueCats Zone Monitor to the OtherLevels platform.  For information on setting up the BlueCats platform in coordination with this extension, please see [**this guide**](https://github.com/bluecats/bluecats-otherlevels-ios-sdkext/wiki/OLLocationEventPoster).
 
 ####Installation
 
