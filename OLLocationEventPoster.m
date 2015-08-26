@@ -101,8 +101,14 @@ static NSString *const OCZoneEventTypeDwell = @"Dwell";
 
 - (NSString *)locationEventIdentifierWithZone:(BCZone *)zone andEventTypeString:(NSString *)eventTypeString
 {
+    BOOL shouldPrefixOLEventIDsWithSiteName = NO;
+    NSString *prefixOLEventIDsWithSiteNameValue = [zone.site stringValueForCustomValueKey:@"PrefixOLEventIDsWithSiteNameKey" ignoreCase:YES];
+    if (prefixOLEventIDsWithSiteNameValue.length > 0) {
+        shouldPrefixOLEventIDsWithSiteName = [prefixOLEventIDsWithSiteNameValue boolValue];
+    }
+    
     NSString *locationEventIdentifier = nil;
-    if (zone.shouldPrefixLocationEventIdWithSiteName) {
+    if (shouldPrefixOLEventIDsWithSiteName) {
         locationEventIdentifier = [NSString stringWithFormat:@"%@_%@_%@", [zone.site.name stringByReplacingOccurrencesOfString:@" " withString:@"_"] , zone.identifier, eventTypeString];
     }
     else {
