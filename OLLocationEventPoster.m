@@ -123,8 +123,6 @@ static NSString *const OCZoneEventTypeDwell = @"Dwell";
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
-    
-    NSString *URLString = [NSString stringWithFormat:@"%@/%@/beacon-push", [OtherLevels getAppKey], [OtherLevels getTrackingId]];
 
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/beacon-push", [OtherLevels getAppKey], [OtherLevels getTrackingId]] relativeToURL:[NSURL URLWithString:OL_API_BASE_URL]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
