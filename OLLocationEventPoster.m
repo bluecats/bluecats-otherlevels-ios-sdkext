@@ -125,8 +125,6 @@ static NSString *const OCZoneEventTypeDwell = @"Dwell";
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
     
     NSString *URLString = [NSString stringWithFormat:@"%@/%@/beacon-push", [OtherLevels getAppKey], [OtherLevels getTrackingId]];
-    
-    NSLog(@"%@",URLString);
 
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/beacon-push", [OtherLevels getAppKey], [OtherLevels getTrackingId]] relativeToURL:[NSURL URLWithString:OL_API_BASE_URL]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
@@ -145,7 +143,7 @@ static NSString *const OCZoneEventTypeDwell = @"Dwell";
     
     
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSLog(@"data = %@, response = %@, error =%@ }", [NSJSONSerialization JSONObjectWithData:data options:0 error:nil], response, error);
+        //NSLog(@"data = %@, response = %@, error =%@ }", [NSJSONSerialization JSONObjectWithData:data options:0 error:nil], response, error);
     }];
     
     [postDataTask resume];
