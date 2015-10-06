@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name     = 'OLLocationEventPoster'
-  s.version  = '0.0.1'
+  s.version  = '0.0.2'
   s.summary  = 'Post BlueCats zone events to OtherLevels location event endpoint.'
   s.homepage = 'http://www.bluecats.com'
   s.license      = { :type => 'MIT' }
   s.author       = { "BlueCats" => "support@bluecats.com" }
-  s.source   = { :git => 'https://github.com/bluecats/bluecats-otherlevels-ios-sdkext', :tag => '0.0.1' }
+  s.source   = { :git => 'https://github.com/bluecats/bluecats-otherlevels-ios-sdkext'}
   s.platform = :ios, '7.0'
   s.source_files = 'OLLocationEventPoster.{h,m}'
   s.requires_arc = true
