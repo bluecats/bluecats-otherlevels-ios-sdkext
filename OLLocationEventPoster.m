@@ -17,10 +17,10 @@ static NSString *const LOCATION_EVENT_ID_KEY = @"location_event_id";
 static NSString *const NETWORK_ID_KEY = @"network_id";
 static NSString *const OL_ID_KEY = @"ol_id";
 
-static NSString *const OCZoneEventTypeEnter = @"Enter";
-static NSString *const OCZoneEventTypeExit = @"Exit";
-static NSString *const OCZoneEventTypeReEnter = @"ReEnter";
-static NSString *const OCZoneEventTypeDwell = @"Dwell";
+NSString *const OLZoneEventTypeEnter   = @"Enter";
+NSString *const OLZoneEventTypeExit    = @"Exit";
+NSString *const OLZoneEventTypeReEnter = @"ReEnter";
+NSString *const OLZoneEventTypeDwell   = @"Dwell";
 
 @implementation OLLocationEventPoster
 
@@ -58,7 +58,7 @@ static NSString *const OCZoneEventTypeDwell = @"Dwell";
     
     if ([BlueCatsSDK isNetworkReachable]) { // ignore event, if network not available
         
-        NSString *eventTypeString = [NSString stringWithFormat:@"%@%ld", OCZoneEventTypeDwell, (long)dwellTimeInterval];
+        NSString *eventTypeString = [NSString stringWithFormat:@"%@%ld", OLZoneEventTypeDwell, (long)dwellTimeInterval];
         NSString *locationEventIdentifier = [self locationEventIdentifierWithZone:zone andEventTypeString:eventTypeString];
         [self postOLLocationEventWithIdentifier:locationEventIdentifier andTeamID:zone.site.teamID];
     }
@@ -70,7 +70,7 @@ static NSString *const OCZoneEventTypeDwell = @"Dwell";
     
     if ([BlueCatsSDK isNetworkReachable]) { // ignore event, if network not available
         
-        NSString *locationEventIdentifier = [self locationEventIdentifierWithZone:zone andEventTypeString:OCZoneEventTypeEnter];
+        NSString *locationEventIdentifier = [self locationEventIdentifierWithZone:zone andEventTypeString:OLZoneEventTypeEnter];
         [self postOLLocationEventWithIdentifier:locationEventIdentifier andTeamID:zone.site.teamID];
     }
 }
@@ -81,7 +81,7 @@ static NSString *const OCZoneEventTypeDwell = @"Dwell";
     
     if ([BlueCatsSDK isNetworkReachable]) { // ignore event, if network not available
         
-        NSString *locationEventIdentifier = [self locationEventIdentifierWithZone:zone andEventTypeString:OCZoneEventTypeExit];
+        NSString *locationEventIdentifier = [self locationEventIdentifierWithZone:zone andEventTypeString:OLZoneEventTypeExit];
         [self postOLLocationEventWithIdentifier:locationEventIdentifier andTeamID:zone.site.teamID];
     }
 }
@@ -92,7 +92,7 @@ static NSString *const OCZoneEventTypeDwell = @"Dwell";
     
     if ([BlueCatsSDK isNetworkReachable]) { // ignore event, if network not available
         
-        NSString *locationEventIdentifier = [self locationEventIdentifierWithZone:zone andEventTypeString:OCZoneEventTypeReEnter];
+        NSString *locationEventIdentifier = [self locationEventIdentifierWithZone:zone andEventTypeString:OLZoneEventTypeReEnter];
         [self postOLLocationEventWithIdentifier:locationEventIdentifier andTeamID:zone.site.teamID];
     }
 }
