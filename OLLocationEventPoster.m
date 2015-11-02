@@ -21,6 +21,7 @@ NSString *const OLZoneEventTypeEnter   = @"Enter";
 NSString *const OLZoneEventTypeExit    = @"Exit";
 NSString *const OLZoneEventTypeReEnter = @"ReEnter";
 NSString *const OLZoneEventTypeDwell   = @"Dwell";
+NSString *const OLZoneEventTypeSuspend = @"Suspend";
 
 @implementation OLLocationEventPoster
 
@@ -54,8 +55,7 @@ NSString *const OLZoneEventTypeDwell   = @"Dwell";
 
 - (void)zoneMonitor:(BCZoneMonitor *)monitor didDwellInZone:(BCZone *)zone forTimeInterval:(NSTimeInterval)dwellTimeInterval
 {
-    if (zone.zoneScope != BCZoneScopeAllBeaconsWithZoneIdentifierCustomValue) return;
-    
+    //NSLog(@"Did dwell in zone %@ for %.02f", zone.identifier, dwellTimeInterval);
     if ([BlueCatsSDK isNetworkReachable]) { // ignore event, if network not available
         
         NSString *eventTypeString = [NSString stringWithFormat:@"%@%ld", OLZoneEventTypeDwell, (long)dwellTimeInterval];
@@ -66,8 +66,7 @@ NSString *const OLZoneEventTypeDwell   = @"Dwell";
 
 - (void)zoneMonitor:(BCZoneMonitor *)monitor didEnterZone:(BCZone *)zone
 {
-    if (zone.zoneScope != BCZoneScopeAllBeaconsWithZoneIdentifierCustomValue) return;
-    
+    //NSLog(@"Did enter zone %@", zone.identifier);
     if ([BlueCatsSDK isNetworkReachable]) { // ignore event, if network not available
         
         NSString *locationEventIdentifier = [self locationEventIdentifierWithZone:zone andEventTypeString:OLZoneEventTypeEnter];
@@ -77,8 +76,7 @@ NSString *const OLZoneEventTypeDwell   = @"Dwell";
 
 - (void)zoneMonitor:(BCZoneMonitor *)monitor didExitZone:(BCZone *)zone
 {
-    if (zone.zoneScope != BCZoneScopeAllBeaconsWithZoneIdentifierCustomValue) return;
-    
+    //NSLog(@"Did exit zone %@", zone.identifier);
     if ([BlueCatsSDK isNetworkReachable]) { // ignore event, if network not available
         
         NSString *locationEventIdentifier = [self locationEventIdentifierWithZone:zone andEventTypeString:OLZoneEventTypeExit];
@@ -88,13 +86,27 @@ NSString *const OLZoneEventTypeDwell   = @"Dwell";
 
 - (void)zoneMonitor:(BCZoneMonitor *)monitor didReEnterZone:(BCZone *)zone
 {
-    if (zone.zoneScope != BCZoneScopeAllBeaconsWithZoneIdentifierCustomValue) return;
-    
+    //NSLog(@"Did reEnter zone %@", zone.identifier);
     if ([BlueCatsSDK isNetworkReachable]) { // ignore event, if network not available
         
         NSString *locationEventIdentifier = [self locationEventIdentifierWithZone:zone andEventTypeString:OLZoneEventTypeReEnter];
         [self postOLLocationEventWithIdentifier:locationEventIdentifier andTeamID:zone.site.teamID];
     }
+}
+
+- (void)zoneMonitor:(BCZoneMonitor *)monitor willSuspendMonitoringInSite:(BCSite *)site untilDate:(NSDate *)date
+{
+    //NSLog(@"Will suspend zone monitoring in site %@ until %@", site.name, date);
+    if ([BlueCatsSDK isNetworkReachable]) { // ignore event, if network not available
+        
+        NSString *locationEventIdentifier = [NSString stringWithFormat:@"%@_%@", [site.name stringByReplacingOccurrencesOfString:@" " withString:@"_"] , OLZoneEventTypeSuspend];
+        [self postOLLocationEventWithIdentifier:[locationEventIdentifier uppercaseString] andTeamID:site.teamID];
+    }
+}
+
+- (void)zoneMonitor:(BCZoneMonitor *)monitor willResumeMonitoringInSite:(BCSite *)site
+{
+    //NSLog(@"Will resume zone monitoring in site %@", site.name);
 }
 
 #pragma mark - Private methods
@@ -123,7 +135,7 @@ NSString *const OLZoneEventTypeDwell   = @"Dwell";
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
-
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/beacon-push", [OtherLevels getAppKey], [OtherLevels getTrackingId]] relativeToURL:[NSURL URLWithString:OL_API_BASE_URL]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
