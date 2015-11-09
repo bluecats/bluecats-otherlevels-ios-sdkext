@@ -7,17 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BCZoneMonitor.h"
+#import "BlueCatsSDK.h"
 
 @interface OLLocationEventPoster : NSObject <BCZoneMonitorDelegate>
 
 @property (nonatomic, readonly) BCZoneMonitor *zoneMonitor;
+
 - (instancetype)initWithZoneIdentifierKeys:(NSArray *)keys;
 - (NSString *)locationEventIdentifierWithZone:(BCZone *)zone andEventTypeString:(NSString *)eventTypeString;
 - (void) postOLLocationEventWithIdentifier:(NSString *)locationEventIdentifier andTeamID:(NSString *)teamID;
+
 @end
 
 extern NSString *const OLZoneEventTypeEnter;
 extern NSString *const OLZoneEventTypeExit;
 extern NSString *const OLZoneEventTypeReEnter;
 extern NSString *const OLZoneEventTypeDwell;
+extern NSString *const OLZoneEventTypeSuspend;

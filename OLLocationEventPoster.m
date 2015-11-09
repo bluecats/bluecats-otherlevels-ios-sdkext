@@ -7,9 +7,6 @@
 //
 
 #import "OLLocationEventPoster.h"
-#import "BlueCatsSDK.h"
-#import "BCZone.h"
-#import "BCSite.h"
 #import "OtherLevels.h"
 
 static NSString *const OL_API_BASE_URL = @"https://beacons.otherlevels.com/";
@@ -153,7 +150,10 @@ NSString *const OLZoneEventTypeSuspend = @"Suspend";
     
     
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        //NSLog(@"data = %@, response = %@, error =%@ }", [NSJSONSerialization JSONObjectWithData:data options:0 error:nil], response, error);
+        
+        if (error) {
+            //NSLog(@"Failed to post location event %@ with error %@" locationEventIdentifier, error);
+        }
     }];
     
     [postDataTask resume];
