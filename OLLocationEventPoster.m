@@ -14,11 +14,12 @@ static NSString *const LOCATION_EVENT_ID_KEY = @"location_event_id";
 static NSString *const NETWORK_ID_KEY = @"network_id";
 static NSString *const OL_ID_KEY = @"ol_id";
 
-NSString *const OLZoneEventTypeEnter   = @"Enter";
-NSString *const OLZoneEventTypeExit    = @"Exit";
-NSString *const OLZoneEventTypeReEnter = @"ReEnter";
-NSString *const OLZoneEventTypeDwell   = @"Dwell";
-NSString *const OLZoneEventTypeSuspend = @"Suspend";
+NSString *const OLZoneEventTypeEnter       = @"Enter";
+NSString *const OLZoneEventTypeExit        = @"Exit";
+NSString *const OLZoneEventTypeReEnter     = @"ReEnter";
+NSString *const OLZoneEventTypeDwell       = @"Dwell";
+NSString *const OLZoneEventTypeSuspend     = @"Suspend";
+NSString *const OLZoneEventTypeInZoneAfter = @"InZoneAfter";
 
 @implementation OLLocationEventPoster
 
@@ -49,6 +50,17 @@ NSString *const OLZoneEventTypeSuspend = @"Suspend";
 
 
 #pragma mark - BCZoneMonitorDelegate methods
+
+-(void)zoneMonitor:(BCZoneMonitor *)monitor inZone:(BCZone *)zone afterTime:(NSTimeInterval)timeInterval forRange:(NSRange)timeRange
+{
+    // NSLog(@"In Zone in zone %@ for %.02f", zone.identifier, timeInterval);
+    if ([BlueCatsSDK isNetworkReachable]) { // ignore event, if network not available
+        
+        NSString *eventTypeString = [NSString stringWithFormat:@"%@%ld", OLZoneEventTypeInZoneAfter, (unsigned long)timeRange.location];
+        NSString *locationEventIdentifier = [self locationEventIdentifierWithZone:zone andEventTypeString:eventTypeString];
+        [self postOLLocationEventWithIdentifier:locationEventIdentifier andTeamID:zone.site.teamID];
+    }
+}
 
 - (void)zoneMonitor:(BCZoneMonitor *)monitor didDwellInZone:(BCZone *)zone forTimeInterval:(NSTimeInterval)dwellTimeInterval
 {
