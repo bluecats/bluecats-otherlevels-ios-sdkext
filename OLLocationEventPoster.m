@@ -164,7 +164,7 @@ NSString *const OLZoneEventTypeInZoneAfter = @"InZoneAfter";
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         if (error) {
-            //NSLog(@"Failed to post location event %@ with error %@" locationEventIdentifier, error);
+            //NSLog(@"Failed to post location event %@ with error %@", locationEventIdentifier, error);
         }
     }];
     
